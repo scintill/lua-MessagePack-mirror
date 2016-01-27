@@ -24,8 +24,7 @@ for _ = 1, 1000000 do
     else
         if     not msg:match'extra bytes$'
            and not msg:match'missing bytes$'
-           and not msg:match'is unimplemented$'
-           and not msg:match'table index is NaN$' then
+           and not msg:match'is unimplemented$' then
             diag(table.concat(t, ' '))
             diag(msg)
             fail()
