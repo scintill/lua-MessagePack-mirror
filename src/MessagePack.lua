@@ -1114,12 +1114,15 @@ elseif SIZEOF_NUMBER == 4 then
     set_number'float'
 else
     set_number'double'
+    if SIZEOF_NUMBER > 8 then
+        m.long_double = true
+    end
 end
 set_array'without_hole'
 
 m._VERSION = '0.3.3'
 m._DESCRIPTION = "lua-MessagePack : a pure Lua implementation"
-m._COPYRIGHT = "Copyright (c) 2012-2015 Francois Perrad"
+m._COPYRIGHT = "Copyright (c) 2012-2016 Francois Perrad"
 return m
 --
 -- This library is licensed under the terms of the MIT/X11 license,
