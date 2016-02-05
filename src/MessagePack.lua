@@ -430,7 +430,7 @@ packers['double'] = function (buffer, n)
     if mant ~= mant then
         buffer[#buffer+1] = char(0xCB,  -- nan
                                  0xFF, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
-    elseif mant == huge then
+    elseif mant == huge or expo > 0x400 then
         if sign == 0 then
             buffer[#buffer+1] = char(0xCB,      -- inf
                                      0x7F, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
@@ -438,7 +438,7 @@ packers['double'] = function (buffer, n)
             buffer[#buffer+1] = char(0xCB,      -- -inf
                                      0xFF, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
         end
-    elseif mant == 0.0 and expo == 0 then
+    elseif (mant == 0.0 and expo == 0) or expo < -0x3FE then
         buffer[#buffer+1] = char(0xCB,  -- zero
                                  sign, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
     else
@@ -469,7 +469,7 @@ local set_number = function (number)
         end
     elseif number == 'double' then
         packers['number'] = function (buffer, n)
-            if floor(n) ~= n or n ~= n or n == huge or n == -huge then
+            if floor(n) ~= n or n ~= n or n > 1.7976931348623e+308 or n < -1.7976931348623e+308 then
                 return packers['double'](buffer, n)
             else
                 return packers['integer'](buffer, n)
