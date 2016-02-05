@@ -1,6 +1,6 @@
 Revision history for lua-MessagePack
 
-0.3.4
+0.3.4  Fri Feb  5 10:30:00 2016
 	handle long double
 	handle NaN (like nil) as table index
 
