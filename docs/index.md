@@ -1,4 +1,8 @@
 
+# lua-MessagePack
+
+---
+
 ## Overview
 
 [MessagePack](http://msgpack.org/)
@@ -35,23 +39,29 @@ lua-MessagePack source can be downloaded from
 
 lua-MessagePack is available via LuaRocks:
 
-    luarocks install lua-messagepack
-    # luarocks install lua-messagepack-lua53
+```sh
+luarocks install lua-messagepack
+# luarocks install lua-messagepack-lua53
+```
 
 or manually, with:
 
-    make install LUAVER=5.2
+```sh
+make install LUAVER=5.2
+```
 
 ## Test
 
 The test suite requires the module
 [lua-TestMore](http://fperrad.github.io/lua-TestMore/).
 
-    make test
+```sh
+make test
+```
 
 ## Copyright and License
 
-Copyright © 2012-2016 François Perrad
+Copyright &copy; 2012-2016 Fran&ccedil;ois Perrad
 [![OpenHUB](http://www.openhub.net/accounts/4780/widgets/account_rank.gif)](http://www.openhub.net/accounts/4780?ref=Rank)
 [![LinkedIn](http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.gif)](http://www.linkedin.com/in/fperrad)
 

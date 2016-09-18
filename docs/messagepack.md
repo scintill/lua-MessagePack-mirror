@@ -1,5 +1,9 @@
 
-## Reference
+# MessagePack
+
+---
+
+# Reference
 
 #### pack( data )
 
@@ -41,28 +45,28 @@ Configures the behaviour of `pack`.
 The valid options are `'string'`, `'string_compat'` and `'binary'`.
 The default is `'string_compat'` in order to be compatible with old implementation.
 
-### Data Conversion
+## Data Conversion
 
 - The following __Lua__ types could be converted :
-`nil`, `boolean`, `number`, `string` and `table`.
+  `nil`, `boolean`, `number`, `string` and `table`.
 - A __Lua__ `number` is converted into an __MessagePack__ `integer`
-if `math.floor(num) == num`, otherwise it is converted
-into the __MessagePack__ `float` or `double` (see `set_number`).
+  if `math.floor(num) == num`, otherwise it is converted
+  into the __MessagePack__ `float` or `double` (see `set_number`).
 - When a __MessagePack__ 64 bits `integer` is converted to a __Lua__ `number`
-it is possible that the resulting number will not represent the original number but just an approximation.
+  it is possible that the resulting number will not represent the original number but just an approximation.
 - A __Lua__ `table` is converted into a __MessagePack__ `array`
-only if _all_ the keys are composed of positive integers greater than 1,
-without hole or with holes (see `set_array`).
-Otherwise it is converted into __MessagePack__ `map\.
+  only if _all_ the keys are composed of positive integers greater than 1,
+  without hole or with holes (see `set_array`).
+  Otherwise it is converted into __MessagePack__ `map\.
 - An empty `table` is always converted into a __MessagePack__ `array`.
 - With `set_array'always_as_map'`,
-all __Lua__ `table` are converted into a __MessagePack__ `map`.
+  all __Lua__ `table` are converted into a __MessagePack__ `map`.
 - Lua does not allow `nil` and `NaN (0/0)` as `table` index, by default,
-the deserialization of this kind of __MessagePack__ map skips the key/value pair.
-The value could preserved by defining the module member `sentinel` which is used as key.
+  the deserialization of this kind of __MessagePack__ map skips the key/value pair.
+  The value could preserved by defining the module member `sentinel` which is used as key.
 - LIMITATION : __MessagePack__ cannot handle data with _cyclic_ reference.
 
-### Extensions
+## Extensions
 
 There are introduced with __MessagePack__ specification v5.
 
@@ -92,7 +96,7 @@ end
 return mp
 ```
 
-### Advanced usages
+## Advanced usages
 
 The following Lua hack allows to have several instances
 of the module `MessagePack`, each one with its own settings.
@@ -131,7 +135,7 @@ end
 mp.pack { 'encoded_with_global_settings', BINARY'encoded_as_binary', 42, FLOAT(42) }
 ```
 
-## Examples
+# Examples
 
 Basic usage
 
