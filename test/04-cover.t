@@ -13,10 +13,10 @@ ok( nan ~= nan )
 is( mp.unpack(mp.pack(3.140625)), 3.140625, "3.140625" )
 
 mp.set_number'double'
-is( mp.unpack(mp.pack(1.0e+300)), 1.0e+300, "1.0e+300" )
 if mp.long_double then
-    skip("long double", 1)
+    skip("long double", 2)
 else
+    is( mp.unpack(mp.pack(1.0e+300)), 1.0e+300, "1.0e+300" )
     is( mp.unpack(mp.pack(math.pi)), math.pi, "pi" )
 end
 
