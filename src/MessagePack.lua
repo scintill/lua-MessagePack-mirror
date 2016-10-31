@@ -413,7 +413,7 @@ packers['float'] = function (buffer, n)
                                  sign, 0x00, 0x00, 0x00)
     else
         expo = expo + 0x7E
-        mant = (mant * 2.0 - 1.0) * ldexp(0.5, 24)
+        mant = floor((mant * 2.0 - 1.0) * ldexp(0.5, 24))
         buffer[#buffer+1] = char(0xCA,
                                  sign + floor(expo / 0x2),
                                  (expo % 0x2) * 0x80 + floor(mant / 0x10000),
@@ -445,7 +445,7 @@ packers['double'] = function (buffer, n)
                                  sign, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00)
     else
         expo = expo + 0x3FE
-        mant = (mant * 2.0 - 1.0) * ldexp(0.5, 53)
+        mant = floor((mant * 2.0 - 1.0) * ldexp(0.5, 53))
         buffer[#buffer+1] = char(0xCB,
                                  sign + floor(expo / 0x10),
                                  (expo % 0x10) * 0x10 + floor(mant / 0x1000000000000),
