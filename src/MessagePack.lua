@@ -866,7 +866,7 @@ unpackers['str32'] = function (c)
     c.i = i
     local n = ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4
     local e = i+n-1
-    if e > j then
+    if e > j or n < 0 then
         c:underflow(e)
         s, i, j = c.s, c.i, c.j
         e = i+n-1
@@ -1028,7 +1028,7 @@ unpackers['ext32'] = function (c)
     i = i+1
     c.i = i
     local e = i+n-1
-    if e > j then
+    if e > j or n < 0 then
         c:underflow(e)
         s, i, j = c.s, c.i, c.j
         e = i+n-1
@@ -1107,14 +1107,14 @@ end
 set_string'string_compat'
 set_integer'unsigned'
 if NUMBER_INTEGRAL then
-    packers['double'] = packers['integer']
-    packers['float'] = packers['integer']
     set_number'integer'
 elseif SIZEOF_NUMBER == 4 then
     maxinteger = 16777215
     mininteger = -maxinteger
-    packers['double'] = packers['float']
     m.small_lua = true
+    unpackers['double'] = nil
+    unpackers['uint64'] = nil
+    unpackers['int64'] = nil
     set_number'float'
 else
     maxinteger = 9007199254740991
