@@ -1,6 +1,6 @@
 Revision history for lua-MessagePack
 
-0.3.6
+0.3.6  Wed Nov 30 09:30:00 2016
 	fix pack float with Lua 5.3
 	fix behaviour with LUA_32BITS
 
