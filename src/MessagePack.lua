@@ -535,6 +535,18 @@ local function _unpack (c)
     return unpackers[val](c, val)
 end
 
+local function unpack_str (c, n)
+    local s, i, j = c.s, c.i, c.j
+    local e = i+n-1
+    if e > j or n < 0 then
+        c:underflow(e)
+        s, i, j = c.s, c.i, c.j
+        e = i+n-1
+    end
+    c.i = i+n
+    return s:sub(i, e)
+end
+
 local function unpack_array (c, n)
     local t = {}
     for i = 1, n do
@@ -724,137 +736,14 @@ local function unpack_int64 (c)
     end
 end
 
-local function unpack_fixstr (c, val)
-    local s, i, j = c.s, c.i, c.j
-    local n = val % 0x20
-    local e = i+n-1
-    if e > j then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return s:sub(i, e)
-end
-
-local function unpack_str8 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local n = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
-    local e = i+n-1
-    if e > j then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return s:sub(i, e)
-end
-
-local function unpack_str16 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+1 > j then
-        c:underflow(i+1)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
-    i = i+2
-    c.i = i
-    local n = b1 * 0x100 + b2
-    local e = i+n-1
-    if e > j then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return s:sub(i, e)
-end
-
-local function unpack_str32 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+3 > j then
-        c:underflow(i+3)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
-    i = i+4
-    c.i = i
-    local n = ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4
-    local e = i+n-1
-    if e > j or n < 0 then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return s:sub(i, e)
-end
-
-local function unpack_array16 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+1 > j then
-        c:underflow(i+1)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
-    c.i = i+2
-    return unpack_array(c, b1 * 0x100 + b2)
-end
-
-local function unpack_array32 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+3 > j then
-        c:underflow(i+3)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
-    c.i = i+4
-    return unpack_array(c, ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4)
-end
-
-local function unpack_map16 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+1 > j then
-        c:underflow(i+1)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
-    c.i = i+2
-    return unpack_map(c, b1 * 0x100 + b2)
-end
-
-local function unpack_map32 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+3 > j then
-        c:underflow(i+3)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
-    c.i = i+4
-    return unpack_map(c, ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4)
-end
-
 function m.build_ext (tag, data)
     return nil
 end
 
-local function unpack_fixext (c, n)
+local function unpack_ext (c, n, tag)
     local s, i, j = c.s, c.i, c.j
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local tag = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
     local e = i+n-1
-    if e > j then
+    if e > j or n < 0 then
         c:underflow(e)
         s, i, j = c.s, c.i, c.j
         e = i+n-1
@@ -863,96 +752,16 @@ local function unpack_fixext (c, n)
     return m.build_ext(tag, s:sub(i, e))
 end
 
-local function unpack_ext8 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local n = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local tag = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
-    local e = i+n-1
-    if e > j then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return m.build_ext(tag < 0x80 and tag or tag - 0x100, s:sub(i, e))
-end
-
-local function unpack_ext16 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+1 > j then
-        c:underflow(i+1)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
-    i = i+2
-    c.i = i
-    local n = b1 * 0x100 + b2
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local tag = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
-    local e = i+n-1
-    if e > j then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return m.build_ext(tag < 0x80 and tag or tag - 0x100, s:sub(i, e))
-end
-
-local function unpack_ext32 (c)
-    local s, i, j = c.s, c.i, c.j
-    if i+3 > j then
-        c:underflow(i+3)
-        s, i, j = c.s, c.i, c.j
-    end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
-    i = i+4
-    c.i = i
-    local n = ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4
-    if i > j then
-        c:underflow(i)
-        s, i, j = c.s, c.i, c.j
-    end
-    local tag = s:sub(i, i):byte()
-    i = i+1
-    c.i = i
-    local e = i+n-1
-    if e > j or n < 0 then
-        c:underflow(e)
-        s, i, j = c.s, c.i, c.j
-        e = i+n-1
-    end
-    c.i = i+n
-    return m.build_ext(tag < 0x80 and tag or tag - 0x100, s:sub(i, e))
-end
-
 unpackers = {
     [0xC0] = function () return nil end,
     [0xC2] = function () return false end,
     [0xC3] = function () return true end,
-    [0xC4] = unpack_str8,       -- bin8
-    [0xC5] = unpack_str16,      -- bin16
-    [0xC6] = unpack_str32,      -- bin32
-    [0xC7] = unpack_ext8,
-    [0xC8] = unpack_ext16,
-    [0xC9] = unpack_ext32,
+    [0xC4] = function (c) return unpack_str(c, unpack_uint8(c)) end,    -- bin8
+    [0xC5] = function (c) return unpack_str(c, unpack_uint16(c)) end,   -- bin16
+    [0xC6] = function (c) return unpack_str(c, unpack_uint32(c)) end,   -- bin32
+    [0xC7] = function (c) return unpack_ext(c, unpack_uint8(c), unpack_int8(c)) end,
+    [0xC8] = function (c) return unpack_ext(c, unpack_uint16(c), unpack_int8(c)) end,
+    [0xC9] = function (c) return unpack_ext(c, unpack_uint32(c), unpack_int8(c)) end,
     [0xCA] = unpack_float,
     [0xCB] = unpack_double,
     [0xCC] = unpack_uint8,
@@ -963,18 +772,18 @@ unpackers = {
     [0xD1] = unpack_int16,
     [0xD2] = unpack_int32,
     [0xD3] = unpack_int64,
-    [0xD4] = function (c) return unpack_fixext(c, 1) end,
-    [0xD5] = function (c) return unpack_fixext(c, 2) end,
-    [0xD6] = function (c) return unpack_fixext(c, 4) end,
-    [0xD7] = function (c) return unpack_fixext(c, 8) end,
-    [0xD8] = function (c) return unpack_fixext(c, 16) end,
-    [0xD9] = unpack_str8,
-    [0xDA] = unpack_str16,
-    [0xDB] = unpack_str32,
-    [0xDC] = unpack_array16,
-    [0xDD] = unpack_array32,
-    [0xDE] = unpack_map16,
-    [0xDF] = unpack_map32,
+    [0xD4] = function (c) return unpack_ext(c, 1, unpack_int8(c)) end,
+    [0xD5] = function (c) return unpack_ext(c, 2, unpack_int8(c)) end,
+    [0xD6] = function (c) return unpack_ext(c, 4, unpack_int8(c)) end,
+    [0xD7] = function (c) return unpack_ext(c, 8, unpack_int8(c)) end,
+    [0xD8] = function (c) return unpack_ext(c, 16, unpack_int8(c)) end,
+    [0xD9] = function (c) return unpack_str(c, unpack_uint8(c)) end,
+    [0xDA] = function (c) return unpack_str(c, unpack_uint16(c)) end,
+    [0xDB] = function (c) return unpack_str(c, unpack_uint32(c)) end,
+    [0xDC] = function (c) return unpack_array(c, unpack_uint16(c)) end,
+    [0xDD] = function (c) return unpack_array(c, unpack_uint32(c)) end,
+    [0xDE] = function (c) return unpack_map(c, unpack_uint16(c)) end,
+    [0xDF] = function (c) return unpack_map(c, unpack_uint32(c)) end,
 }
 m.unpackers = setmetatable(unpackers, {
     __index = function (t, k)
@@ -986,7 +795,7 @@ m.unpackers = setmetatable(unpackers, {
             elseif k < 0xA0 then
                 return function (c, val) return unpack_array(c, val % 0x10) end
             else
-                return unpack_fixstr
+                return function (c, val) return unpack_str(c, val % 0x20) end
             end
         elseif k > 0xDF then
             return function (c, val) return val - 0x100 end
