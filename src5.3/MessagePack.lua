@@ -166,9 +166,9 @@ local set_array = function (array)
                 is_map = true
             end
             if is_map then
-                return packers['map'](buffer, tbl, n)
+                packers['map'](buffer, tbl, n)
             else
-                return packers['array'](buffer, tbl, n)
+                packers['array'](buffer, tbl, n)
             end
         end
     elseif array == 'with_hole' then
@@ -185,9 +185,9 @@ local set_array = function (array)
                 n = n + 1
             end
             if is_map then
-                return packers['map'](buffer, tbl, n)
+                packers['map'](buffer, tbl, n)
             else
-                return packers['array'](buffer, tbl, max)
+                packers['array'](buffer, tbl, max)
             end
         end
     elseif array == 'always_as_map' then
@@ -196,7 +196,7 @@ local set_array = function (array)
             for k in pairs(tbl) do
                 n = n + 1
             end
-            return packers['map'](buffer, tbl, n)
+            packers['map'](buffer, tbl, n)
         end
     else
         argerror('set_array', 1, "invalid option '" .. array .."'")
@@ -205,7 +205,7 @@ end
 m.set_array = set_array
 
 packers['table'] = function (buffer, tbl)
-    return packers['_table'](buffer, tbl)
+    packers['_table'](buffer, tbl)
 end
 
 packers['unsigned'] = function (buffer, n)
@@ -287,17 +287,17 @@ local set_number = function (number)
     elseif number == 'float' then
         packers['number'] = function (buffer, n)
             if math_type(n) == 'integer' then
-                return packers['integer'](buffer, n)
+                packers['integer'](buffer, n)
             else
-                return packers['float'](buffer, n)
+                packers['float'](buffer, n)
             end
         end
     elseif number == 'double' then
         packers['number'] = function (buffer, n)
             if math_type(n) == 'integer' then
-                return packers['integer'](buffer, n)
+                packers['integer'](buffer, n)
             else
-                return packers['double'](buffer, n)
+                packers['double'](buffer, n)
             end
         end
     else
