@@ -8,7 +8,6 @@ if not r then
 end
 
 local SIZEOF_NUMBER = string.pack and #string.pack('n', 0.0) or 8
-local NUMBER_INTEGRAL = math.type and (math.type(0.0) == math.type(0)) or false
 local maxinteger
 local mininteger
 if not jit and _VERSION < 'Lua 5.3' then
@@ -17,7 +16,6 @@ if not jit and _VERSION < 'Lua 5.3' then
     local luac = string.dump(loadstring "a = 1")
     local header = { luac:sub(1, 12):byte(1, 12) }
     SIZEOF_NUMBER = header[11]
-    NUMBER_INTEGRAL = 1 == header[12]
 end
 
 local assert = assert
@@ -456,9 +454,7 @@ packers['double'] = function (buffer, n)
 end
 
 local set_number = function (number)
-    if number == 'integer' then
-        packers['number'] = packers['signed']
-    elseif number == 'float' then
+    if number == 'float' then
         packers['number'] = function (buffer, n)
             if floor(n) == n and n < maxinteger and n > mininteger then
                 packers['integer'](buffer, n)
@@ -873,9 +869,7 @@ end
 
 set_string'string_compat'
 set_integer'unsigned'
-if NUMBER_INTEGRAL then
-    set_number'integer'
-elseif SIZEOF_NUMBER == 4 then
+if SIZEOF_NUMBER == 4 then
     maxinteger = 16777215
     mininteger = -maxinteger
     m.small_lua = true

@@ -282,9 +282,7 @@ packers['double'] = function (buffer, n)
 end
 
 local set_number = function (number)
-    if number == 'integer' then
-        packers['number'] = packers['signed']
-    elseif number == 'float' then
+    if number == 'float' then
         packers['number'] = function (buffer, n)
             if math_type(n) == 'integer' then
                 packers['integer'](buffer, n)
@@ -622,9 +620,7 @@ end
 
 set_string'string_compat'
 set_integer'unsigned'
-if math_type(0.0) == math_type(0) then
-    set_number'integer'
-elseif #pack('n', 0.0) == 4 then
+if #pack('n', 0.0) == 4 then
     m.small_lua = true
     unpackers[0xCB] = nil       -- double
     unpackers[0xCF] = nil       -- uint64
