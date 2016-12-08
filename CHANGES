@@ -1,6 +1,6 @@
 Revision history for lua-MessagePack
 
-0.4.0
+0.4.0  Thu Dec  8 10:30:00 2016
 	refactor without types_map indirection
 	remove set_number'integer'
 
