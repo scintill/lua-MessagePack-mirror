@@ -557,7 +557,7 @@ local function cursor_string (str)
         s = str,
         i = 1,
         j = #str,
-        underflow = function (self)
+        underflow = function ()
                         error "missing bytes"
                     end,
     }
