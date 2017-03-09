@@ -1,6 +1,7 @@
 Revision history for lua-MessagePack
 
 0.5.0
+	export unpack_cursor instead of unpackers
 
 0.4.0  Thu Dec  8 10:30:00 2016
 	refactor without types_map indirection

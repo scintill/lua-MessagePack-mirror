@@ -337,7 +337,7 @@ end
 
 local unpackers         -- forward declaration
 
-local function _unpack (c)
+local function unpack_cursor (c)
     local s, i, j = c.s, c.i, c.j
     if i > j then
         c:underflow(i)
@@ -347,6 +347,7 @@ local function _unpack (c)
     c.i = i+1
     return unpackers[val](c, val)
 end
+m.unpack_cursor = unpack_cursor
 
 local function unpack_str (c, n)
     local s, i, j = c.s, c.i, c.j
@@ -363,7 +364,7 @@ end
 local function unpack_array (c, n)
     local t = {}
     for i = 1, n do
-        t[i] = _unpack(c)
+        t[i] = unpack_cursor(c)
     end
     return t
 end
@@ -371,8 +372,8 @@ end
 local function unpack_map (c, n)
     local t = {}
     for i = 1, n do
-        local k = _unpack(c)
-        local val = _unpack(c)
+        local k = unpack_cursor(c)
+        local val = unpack_cursor(c)
         if k == nil or k ~= k then
             k = m.sentinel
         end
@@ -587,7 +588,7 @@ end
 function m.unpack (s)
     checktype('unpack', 1, s, 'string')
     local cursor = cursor_string(s)
-    local data = _unpack(cursor)
+    local data = unpack_cursor(cursor)
     if cursor.i < cursor.j then
         error "extra bytes"
     end
@@ -599,7 +600,7 @@ function m.unpacker (src)
         local cursor = cursor_string(src)
         return function ()
             if cursor.i <= cursor.j then
-                return cursor.i, _unpack(cursor)
+                return cursor.i, unpack_cursor(cursor)
             end
         end
     elseif type(src) == 'function' then
@@ -609,7 +610,7 @@ function m.unpacker (src)
                 pcall(cursor.underflow, cursor, cursor.i)
             end
             if cursor.i <= cursor.j then
-                return true, _unpack(cursor)
+                return true, unpack_cursor(cursor)
             end
         end
     else
