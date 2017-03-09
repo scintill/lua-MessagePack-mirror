@@ -748,7 +748,7 @@ local function unpack_ext (c, n, tag)
     return m.build_ext(tag, s:sub(i, e))
 end
 
-unpackers = {
+unpackers = setmetatable({
     [0xC0] = function () return nil end,
     [0xC2] = function () return false end,
     [0xC3] = function () return true end,
@@ -780,8 +780,7 @@ unpackers = {
     [0xDD] = function (c) return unpack_array(c, unpack_uint32(c)) end,
     [0xDE] = function (c) return unpack_map(c, unpack_uint16(c)) end,
     [0xDF] = function (c) return unpack_map(c, unpack_uint32(c)) end,
-}
-m.unpackers = setmetatable(unpackers, {
+}, {
     __index = function (t, k)
         if k < 0xC0 then
             if k < 0x80 then
