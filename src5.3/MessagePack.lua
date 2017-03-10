@@ -635,9 +635,9 @@ else
 end
 set_array'without_hole'
 
-m._VERSION = '0.4.0'
+m._VERSION = '0.5.0'
 m._DESCRIPTION = "lua-MessagePack : a pure Lua 5.3 implementation"
-m._COPYRIGHT = "Copyright (c) 2012-2016 Francois Perrad"
+m._COPYRIGHT = "Copyright (c) 2012-2017 Francois Perrad"
 return m
 --
 -- This library is licensed under the terms of the MIT/X11 license,
