@@ -35,7 +35,7 @@ install:
   - luarocks install lmathx # required by Lua-5.3-strict
 
 script:
-  # - make luacheck
+  - make luacheck
   - make test $SRC53
 
 after_success:
