@@ -55,7 +55,7 @@ The default is `'string_compat'` in order to be compatible with old implementati
 - When a __MessagePack__ 64 bits `integer` is converted to a __Lua__ `number`
   it is possible that the resulting number will not represent the original number but just an approximation.
 - A __Lua__ `table` is converted into a __MessagePack__ `array`
-  only if _all_ the keys are composed of positive integers greater than 1,
+  only if _all_ the keys are composed of strictly positive integers,
   without hole or with holes (see `set_array`).
   Otherwise it is converted into __MessagePack__ `map`.
 - An empty `table` is always converted into a __MessagePack__ `array`.
