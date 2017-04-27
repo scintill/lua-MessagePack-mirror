@@ -2,7 +2,7 @@
 
 require 'Test.More'
 
-plan(22)
+plan(23)
 
 local mp = require 'MessagePack'
 
@@ -53,6 +53,11 @@ error_like( function ()
 
 error_like( function ()
                 mp.unpack(mp.pack("text") .. "more")
+            end,
+            "extra bytes" )
+
+error_like( function ()
+                mp.unpack(mp.pack("text") .. "1")
             end,
             "extra bytes" )
 
