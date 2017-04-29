@@ -64,9 +64,9 @@ packers['string_compat'] = function (buffer, str)
     if n <= 0x1F then
         buffer[#buffer+1] = char(0xA0 + n)              -- fixstr
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2', 0xDA, n)       -- str16
+        buffer[#buffer+1] = pack('>B I2', 0xDA, n)      -- str16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4', 0xDB, n)       -- str32
+        buffer[#buffer+1] = pack('>B I4', 0xDB, n)      -- str32
     else
         error"overflow in pack 'string_compat'"
     end
@@ -80,9 +80,9 @@ packers['_string'] = function (buffer, str)
     elseif n <= 0xFF then
         buffer[#buffer+1] = char(0xD9, n)               -- str8
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2', 0xDA, n)       -- str16
+        buffer[#buffer+1] = pack('>B I2', 0xDA, n)      -- str16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4', 0xDB, n)       -- str32
+        buffer[#buffer+1] = pack('>B I4', 0xDB, n)      -- str32
     else
         error"overflow in pack 'string'"
     end
@@ -94,9 +94,9 @@ packers['binary'] = function (buffer, str)
     if n <= 0xFF then
         buffer[#buffer+1] = char(0xC4, n)               -- bin8
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2', 0xC5, n)       -- bin16
+        buffer[#buffer+1] = pack('>B I2', 0xC5, n)      -- bin16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4', 0xC6, n)       -- bin32
+        buffer[#buffer+1] = pack('>B I4', 0xC6, n)      -- bin32
     else
         error"overflow in pack 'binary'"
     end
@@ -120,9 +120,9 @@ packers['map'] = function (buffer, tbl, n)
     if n <= 0x0F then
         buffer[#buffer+1] = char(0x80 + n)              -- fixmap
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2', 0xDE, n)       -- map16
+        buffer[#buffer+1] = pack('>B I2', 0xDE, n)      -- map16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4', 0xDF, n)       -- map32
+        buffer[#buffer+1] = pack('>B I4', 0xDF, n)      -- map32
     else
         error"overflow in pack 'map'"
     end
@@ -136,9 +136,9 @@ packers['array'] = function (buffer, tbl, n)
     if n <= 0x0F then
         buffer[#buffer+1] = char(0x90 + n)              -- fixarray
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2', 0xDC, n)       -- array16
+        buffer[#buffer+1] = pack('>B I2', 0xDC, n)      -- array16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4', 0xDD, n)       -- array32
+        buffer[#buffer+1] = pack('>B I4', 0xDD, n)      -- array32
     else
         error"overflow in pack 'array'"
     end
@@ -215,23 +215,23 @@ packers['unsigned'] = function (buffer, n)
         elseif n <= 0xFF then
             buffer[#buffer+1] = char(0xCC, n)           -- uint8
         elseif n <= 0xFFFF then
-            buffer[#buffer+1] = pack('>BI2', 0xCD, n)   -- uint16
+            buffer[#buffer+1] = pack('>B I2', 0xCD, n)  -- uint16
         elseif n <= 0xFFFFFFFF.0 then
-            buffer[#buffer+1] = pack('>BI4', 0xCE, n)   -- uint32
+            buffer[#buffer+1] = pack('>B I4', 0xCE, n)  -- uint32
         else
-            buffer[#buffer+1] = pack('>BI8', 0xCF, n)   -- uint64
+            buffer[#buffer+1] = pack('>B I8', 0xCF, n)  -- uint64
         end
     else
         if n >= -0x20 then
             buffer[#buffer+1] = char(0x100 + n)         -- fixnum_neg
         elseif n >= -0x80 then
-            buffer[#buffer+1] = pack('>Bi1', 0xD0, n)   -- int8
+            buffer[#buffer+1] = pack('>B i1', 0xD0, n)  -- int8
         elseif n >= -0x8000 then
-            buffer[#buffer+1] = pack('>Bi2', 0xD1, n)   -- int16
+            buffer[#buffer+1] = pack('>B i2', 0xD1, n)  -- int16
         elseif n >= -0x80000000 then
-            buffer[#buffer+1] = pack('>Bi4', 0xD2, n)   -- int32
+            buffer[#buffer+1] = pack('>B i4', 0xD2, n)  -- int32
         else
-            buffer[#buffer+1] = pack('>Bi8', 0xD3, n)   -- int64
+            buffer[#buffer+1] = pack('>B i8', 0xD3, n)  -- int64
         end
     end
 end
@@ -241,23 +241,23 @@ packers['signed'] = function (buffer, n)
         if n <= 0x7F then
             buffer[#buffer+1] = char(n)                 -- fixnum_pos
         elseif n <= 0x7FFF then
-            buffer[#buffer+1] = pack('>Bi2', 0xD1, n)   -- int16
+            buffer[#buffer+1] = pack('>B i2', 0xD1, n)  -- int16
         elseif n <= 0x7FFFFFFF then
-            buffer[#buffer+1] = pack('>Bi4', 0xD2, n)   -- int32
+            buffer[#buffer+1] = pack('>B i4', 0xD2, n)  -- int32
         else
-            buffer[#buffer+1] = pack('>Bi8', 0xD3, n)   -- int64
+            buffer[#buffer+1] = pack('>B i8', 0xD3, n)  -- int64
         end
     else
         if n >= -0x20 then
             buffer[#buffer+1] = char(0xE0 + 0x20 + n)   -- fixnum_neg
         elseif n >= -0x80 then
-            buffer[#buffer+1] = pack('>Bi1', 0xD0, n)   -- int8
+            buffer[#buffer+1] = pack('>B i1', 0xD0, n)  -- int8
         elseif n >= -0x8000 then
-            buffer[#buffer+1] = pack('>Bi2', 0xD1, n)   -- int16
+            buffer[#buffer+1] = pack('>B i2', 0xD1, n)  -- int16
         elseif n >= -0x80000000 then
-            buffer[#buffer+1] = pack('>Bi4', 0xD2, n)   -- int32
+            buffer[#buffer+1] = pack('>B i4', 0xD2, n)  -- int32
         else
-            buffer[#buffer+1] = pack('>Bi8', 0xD3, n)   -- int64
+            buffer[#buffer+1] = pack('>B i8', 0xD3, n)  -- int64
         end
     end
 end
@@ -274,11 +274,11 @@ end
 m.set_integer = set_integer
 
 packers['float'] = function (buffer, n)
-    buffer[#buffer+1] = pack('>Bf', 0xCA, n)
+    buffer[#buffer+1] = pack('>B f', 0xCA, n)
 end
 
 packers['double'] = function (buffer, n)
-    buffer[#buffer+1] = pack('>Bd', 0xCB, n)
+    buffer[#buffer+1] = pack('>B d', 0xCB, n)
 end
 
 local set_number = function (number)
@@ -309,7 +309,7 @@ for k = 0, 4 do
     local fixext = 0xD4 + k
     packers['fixext' .. tostring(n)] = function (buffer, tag, data)
         assert(#data == n, "bad length for fixext" .. tostring(n))
-        buffer[#buffer+1] = pack('>Bi1', fixext, tag)
+        buffer[#buffer+1] = pack('>B i1', fixext, tag)
         buffer[#buffer+1] = data
     end
 end
@@ -317,11 +317,11 @@ end
 packers['ext'] = function (buffer, tag, data)
     local n = #data
     if n <= 0xFF then
-        buffer[#buffer+1] = pack('>BBi1', 0xC7, n, tag)         -- ext8
+        buffer[#buffer+1] = pack('>B B i1', 0xC7, n, tag)       -- ext8
     elseif n <= 0xFFFF then
-        buffer[#buffer+1] = pack('>BI2i1', 0xC8, n, tag)        -- ext16
+        buffer[#buffer+1] = pack('>B I2 i1', 0xC8, n, tag)      -- ext16
     elseif n <= 0xFFFFFFFF.0 then
-        buffer[#buffer+1] = pack('>BI4i1', 0xC9, n, tag)        -- ext32
+        buffer[#buffer+1] = pack('>B I4 i1', 0xC9, n, tag)      -- ext32
     else
         error"overflow in pack 'ext'"
     end
