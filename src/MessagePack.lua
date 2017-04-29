@@ -796,7 +796,7 @@ unpackers = setmetatable({
         elseif k > 0xDF then
             return function (c, val) return val - 0x100 end
         else
-            return function () error("unpack '" .. format('0x%X', k) .. "' is unimplemented") end
+            return function () error("unpack '" .. format('%#x', k) .. "' is unimplemented") end
         end
     end
 })

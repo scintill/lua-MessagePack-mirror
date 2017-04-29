@@ -42,7 +42,7 @@ error_like( function ()
 error_like( function ()
                 mp.unpack(string.char(0xC1))
             end,
-            "unpack '0xC1' is unimplemented" )
+            "unpack '0xc1' is unimplemented" )
 
 is( mp.unpack(mp.pack("text")), "text" )
 
