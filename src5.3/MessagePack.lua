@@ -43,7 +43,10 @@ local function checktype (caller, narg, arg, tname)
 end
 
 local packers = setmetatable({}, {
-    __index = function (t, k) error("pack '" .. k .. "' is unimplemented") end
+    __index = function (t, k)
+        -- return nil for k == 1 to avoid breaking ipairs()
+        if k ~= 1 then error("pack '" .. k .. "' is unimplemented") end
+    end
 })
 m.packers = packers
 
