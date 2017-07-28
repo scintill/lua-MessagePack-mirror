@@ -2,7 +2,7 @@
 
 require 'Test.More'
 
-plan(23)
+plan(24)
 
 local mp = require 'MessagePack'
 
@@ -114,6 +114,10 @@ error_like( function ()
 
 lives_ok( function ()
                 mp.packers['fixext4']({}, 1, '1234')
-            end,
-            "fixext4" )
+          end,
+          "fixext4" )
 
+lives_ok( function ()
+                for _ in ipairs(mp.packers) do end
+           end,
+           "cannot iterate packers" )
