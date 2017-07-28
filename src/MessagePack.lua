@@ -61,8 +61,8 @@ end
 
 local packers = setmetatable({}, {
     __index = function (t, k)
-        -- return nil for k == 1 to avoid breaking ipairs()
-        if k ~= 1 then error("pack '" .. k .. "' is unimplemented") end
+        if k == 1 then return end   -- allows ipairs
+        error("pack '" .. k .. "' is unimplemented")
     end
 })
 m.packers = packers
