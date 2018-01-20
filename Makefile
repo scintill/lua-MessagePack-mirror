@@ -4,7 +4,7 @@ VERSION := $(shell cd src && $(LUA) -e "m = require [[MessagePack]]; print(m._VE
 TARBALL := lua-messagepack-$(VERSION).tar.gz
 REV     := 1
 
-LUAVER  := 5.1
+LUAVER  := 5.2
 PREFIX  := /usr/local
 DPREFIX := $(DESTDIR)$(PREFIX)
 LIBDIR  := $(DPREFIX)/share/lua/$(LUAVER)
