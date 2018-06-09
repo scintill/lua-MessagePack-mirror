@@ -1,9 +1,9 @@
 package = 'lua-MessagePack-lua53'
-version = '@version@-@rev@'
+version = '0.5.1-2'
 source = {
-    url = 'https://framagit.org/fperrad/lua-MessagePack/raw/releases/lua-messagepack-@version@.tar.gz',
-    md5 = '@md5@',
-    dir = 'lua-MessagePack-@version@',
+    url = 'https://framagit.org/fperrad/lua-MessagePack/raw/releases/lua-messagepack-0.5.1.tar.gz',
+    md5 = 'd7f524b174b8baa822442b11421ff3ac',
+    dir = 'lua-MessagePack-0.5.1',
 }
 description = {
     summary = "a pure Lua implementation of the MessagePack serialization format",
