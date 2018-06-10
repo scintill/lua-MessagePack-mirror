@@ -32,7 +32,7 @@ It's developed for Lua 5.1, 5.2 & 5.3. There are 2 variants:
 
 ## Download
 
-The sources are hosted on [GitHub](http://github.com/fperrad/lua-MessagePack).
+The sources are hosted on [Framagit](https://framagit.org/fperrad/lua-MessagePack).
 
 ## Installation
 
@@ -52,7 +52,7 @@ make install LUAVER=5.2
 ## Test
 
 The test suite requires the module
-[lua-TestMore](http://fperrad.github.io/lua-TestMore/).
+[lua-TestMore](https://fperrad.frama.io/lua-TestMore/).
 
 ```sh
 make test
@@ -61,8 +61,6 @@ make test
 ## Copyright and License
 
 Copyright &copy; 2012-2018 Fran&ccedil;ois Perrad
-[![OpenHUB](http://www.openhub.net/accounts/4780/widgets/account_rank.gif)](http://www.openhub.net/accounts/4780?ref=Rank)
-[![LinkedIn](http://www.linkedin.com/img/webpromo/btn_liprofile_blue_80x15.gif)](http://www.linkedin.com/in/fperrad)
 
 This library is licensed under the terms of the MIT/X11 license,
 like Lua itself.

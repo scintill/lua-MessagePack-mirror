@@ -12,7 +12,7 @@ description = {
 
         It lets you exchange data among multiple languages like JSON but it's faster and smaller.
     ]],
-    homepage = 'http://fperrad.frama.io/lua-MessagePack/',
+    homepage = 'https://fperrad.frama.io/lua-MessagePack/',
     maintainer = 'Francois Perrad',
     license = 'MIT/X11'
 }
