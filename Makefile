@@ -106,8 +106,8 @@ coveralls:
 README.html: README.md
 	Markdown.pl README.md > README.html
 
-gh-pages:
-	mkdocs gh-deploy --clean
+pages:
+	mkdocs build -d public
 
 clean:
 	rm -f MANIFEST *.bak src/luacov.*.out README.html
