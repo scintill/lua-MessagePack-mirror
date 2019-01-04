@@ -1,5 +1,5 @@
 --
--- lua-MessagePack : <http://fperrad.github.io/lua-MessagePack/>
+-- lua-MessagePack : <https://fperrad.frama.io/lua-MessagePack/>
 --
 
 local r, jit = pcall(require, 'jit')
