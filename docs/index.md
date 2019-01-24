@@ -43,6 +43,12 @@ luarocks install lua-messagepack
 # luarocks install lua-messagepack-lua53
 ```
 
+lua-MessagePack is available via opm:
+
+```sh
+opm get fperrad/lua-messagepack
+```
+
 or manually, with:
 
 ```sh
