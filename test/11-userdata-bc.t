@@ -12,6 +12,7 @@ local mp = require 'MessagePack'
 local bc = require 'bc'
 local EXT_BC = 42
 bc.digits(65)
+local number = bc.number or bc.new
 
 mp.packers['userdata'] = function (buffer, u)
     if getmetatable(u) == bc then
@@ -23,7 +24,7 @@ end
 
 mp.build_ext = function (tag, data)
     if tag == EXT_BC then
-        return bc.number(data)
+        return number(data)
     end
 end
 
