@@ -102,19 +102,21 @@ check: test
 
 test:
 	LUA_PATH=";;$(CURDIR)/$(SRC)/?.lua" \
-		prove --exec=$(LUA) test/*.t
+		prove --exec=$(LUA) test/*.lua
 
 luacheck:
 	luacheck --std=max --codes src --ignore 211/_ENV 212 213 311/j 631
 	luacheck --std=max --codes src5.3 --ignore 211/_ENV 212 213 311/j
-	luacheck --std=max --config .test.luacheckrc test/*.t
+	luacheck --std=max --config .test.luacheckrc test
 
 coverage:
 	rm -f luacov.*
 	-LUA_PATH=";;$(CURDIR)/$(SRC)/?.lua" \
-		prove --exec="$(LUA) -lluacov" test/*.t
+		prove --exec="$(LUA) -lluacov" test/*.lua
 	luacov-console $(CURDIR)/src
 	luacov-console -s $(CURDIR)/src
+	luacov-console test
+	luacov-console -s test
 
 README.html: README.md
 	Markdown.pl README.md > README.html
