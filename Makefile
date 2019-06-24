@@ -1,5 +1,9 @@
 
+ifeq ($(wildcard bed),bed)
+LUA     := $(CURDIR)/bed/bin/lua
+else
 LUA     := lua
+endif
 VERSION := $(shell cd src && $(LUA) -e "m = require [[MessagePack]]; print(m._VERSION)")
 TARBALL := lua-messagepack-$(VERSION).tar.gz
 REV     := 1
@@ -15,6 +19,8 @@ SRC     := src5.3
 else
 SRC     := src
 endif
+
+BED_OPTS:= --lua latest
 
 all:
 	@echo "Nothing to build here, you can just make install"
@@ -83,6 +89,15 @@ rock:
 	luarocks pack rockspec/lua-messagepack-$(VERSION)-$(REV).rockspec
 	luarocks pack rockspec/lua-messagepack-lua53-$(VERSION)-$(REV).rockspec
 
+bed:
+	hererocks bed $(BED_OPTS) --no-readline --luarocks latest --verbose
+	bed/bin/luarocks install lua-testmore
+	bed/bin/luarocks install lua-coat
+	bed/bin/luarocks install lbc
+	bed/bin/luarocks install luacov
+	hererocks bed --show
+	bed/bin/luarocks list
+
 check: test
 
 test:
@@ -113,6 +128,7 @@ clean:
 	rm -f MANIFEST *.bak src/luacov.*.out README.html
 
 realclean: clean
+	rm -rf bed
 
 .PHONY: test rockspec CHANGES
 
