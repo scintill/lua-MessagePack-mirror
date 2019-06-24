@@ -4,7 +4,7 @@ LUA     := $(CURDIR)/bed/bin/lua
 else
 LUA     := lua
 endif
-VERSION := $(shell cd src && $(LUA) -e "m = require [[MessagePack]]; print(m._VERSION)")
+VERSION := $(shell LUA_PATH=";;src/?.lua" $(LUA) -e "m = require [[MessagePack]]; print(m._VERSION)")
 TARBALL := lua-messagepack-$(VERSION).tar.gz
 REV     := 1
 
@@ -101,7 +101,8 @@ bed:
 check: test
 
 test:
-	cd $(SRC) && prove --exec=$(LUA) ../test/*.t
+	LUA_PATH=";;$(CURDIR)/$(SRC)/?.lua" \
+		prove --exec=$(LUA) test/*.t
 
 luacheck:
 	luacheck --std=max --codes src --ignore 211/_ENV 212 213 311/j 631
@@ -109,14 +110,11 @@ luacheck:
 	luacheck --std=max --config .test.luacheckrc test/*.t
 
 coverage:
-	rm -f src/luacov.stats.out src/luacov.report.out
-	cd $(SRC) && prove --exec="$(LUA) -lluacov" ../test/*.t
-	cd $(SRC) && luacov
-
-coveralls:
-	rm -f src/luacov.stats.out src/luacov.report.out
-	cd $(SRC) && prove --exec="$(LUA) -lluacov" ../test/*.t
-	cd $(SRC) && luacov-coveralls -e /HERE/ -e %.t$
+	rm -f luacov.*
+	-LUA_PATH=";;$(CURDIR)/$(SRC)/?.lua" \
+		prove --exec="$(LUA) -lluacov" test/*.t
+	luacov-console $(CURDIR)/src
+	luacov-console -s $(CURDIR)/src
 
 README.html: README.md
 	Markdown.pl README.md > README.html
@@ -125,7 +123,7 @@ pages:
 	mkdocs build -d public
 
 clean:
-	rm -f MANIFEST *.bak src/luacov.*.out README.html
+	rm -f MANIFEST *.bak luacov.* README.html
 
 realclean: clean
 	rm -rf bed

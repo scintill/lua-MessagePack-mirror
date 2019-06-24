@@ -8,7 +8,7 @@
 /*.tar.gz
 /*.rock
 
-*.out
+luacov.*
 
 /lua-messagepack-*
 
