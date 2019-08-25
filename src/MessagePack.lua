@@ -14,7 +14,7 @@ if not jit and _VERSION < 'Lua 5.3' then
     -- Lua 5.1 & 5.2
     local loadstring = loadstring or load
     local luac = string.dump(loadstring "a = 1")
-    local header = { luac:sub(1, 12):byte(1, 12) }
+    local header = { luac:byte(1, 12) }
     SIZEOF_NUMBER = header[11]
 end
 
@@ -529,7 +529,7 @@ local function unpack_cursor (c)
         c:underflow(i)
         s, i, j = c.s, c.i, c.j
     end
-    local val = s:sub(i, i):byte()
+    local val = s:byte(i)
     c.i = i+1
     return unpackers[val](c, val)
 end
@@ -576,7 +576,7 @@ local function unpack_float (c)
         c:underflow(i+3)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
+    local b1, b2, b3, b4 = s:byte(i, i+3)
     local sign = b1 > 0x7F
     local expo = (b1 % 0x80) * 0x2 + floor(b2 / 0x80)
     local mant = ((b2 % 0x80) * 0x100 + b3) * 0x100 + b4
@@ -607,7 +607,7 @@ local function unpack_double (c)
         c:underflow(i+7)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4, b5, b6, b7, b8 = s:sub(i, i+7):byte(1, 8)
+    local b1, b2, b3, b4, b5, b6, b7, b8 = s:byte(i, i+7)
     local sign = b1 > 0x7F
     local expo = (b1 % 0x80) * 0x10 + floor(b2 / 0x10)
     local mant = ((((((b2 % 0x10) * 0x100 + b3) * 0x100 + b4) * 0x100 + b5) * 0x100 + b6) * 0x100 + b7) * 0x100 + b8
@@ -638,7 +638,7 @@ local function unpack_uint8 (c)
         c:underflow(i)
         s, i, j = c.s, c.i, c.j
     end
-    local b1 = s:sub(i, i):byte()
+    local b1 = s:byte(i)
     c.i = i+1
     return b1
 end
@@ -649,7 +649,7 @@ local function unpack_uint16 (c)
         c:underflow(i+1)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
+    local b1, b2 = s:byte(i, i+1)
     c.i = i+2
     return b1 * 0x100 + b2
 end
@@ -660,7 +660,7 @@ local function unpack_uint32 (c)
         c:underflow(i+3)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
+    local b1, b2, b3, b4 = s:byte(i, i+3)
     c.i = i+4
     return ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4
 end
@@ -671,7 +671,7 @@ local function unpack_uint64 (c)
         c:underflow(i+7)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4, b5, b6, b7, b8 = s:sub(i, i+7):byte(1, 8)
+    local b1, b2, b3, b4, b5, b6, b7, b8 = s:byte(i, i+7)
     c.i = i+8
     return ((((((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4) * 0x100 + b5) * 0x100 + b6) * 0x100 + b7) * 0x100 + b8
 end
@@ -682,7 +682,7 @@ local function unpack_int8 (c)
         c:underflow(i)
         s, i, j = c.s, c.i, c.j
     end
-    local b1 = s:sub(i, i):byte()
+    local b1 = s:byte(i)
     c.i = i+1
     if b1 < 0x80 then
         return b1
@@ -697,7 +697,7 @@ local function unpack_int16 (c)
         c:underflow(i+1)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2 = s:sub(i, i+1):byte(1, 2)
+    local b1, b2 = s:byte(i, i+1)
     c.i = i+2
     if b1 < 0x80 then
         return b1 * 0x100 + b2
@@ -712,7 +712,7 @@ local function unpack_int32 (c)
         c:underflow(i+3)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4 = s:sub(i, i+3):byte(1, 4)
+    local b1, b2, b3, b4 = s:byte(i, i+3)
     c.i = i+4
     if b1 < 0x80 then
         return ((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4
@@ -727,7 +727,7 @@ local function unpack_int64 (c)
         c:underflow(i+7)
         s, i, j = c.s, c.i, c.j
     end
-    local b1, b2, b3, b4, b5, b6, b7, b8 = s:sub(i, i+7):byte(1, 8)
+    local b1, b2, b3, b4, b5, b6, b7, b8 = s:byte(i, i+7)
     c.i = i+8
     if b1 < 0x80 then
         return ((((((b1 * 0x100 + b2) * 0x100 + b3) * 0x100 + b4) * 0x100 + b5) * 0x100 + b6) * 0x100 + b7) * 0x100 + b8

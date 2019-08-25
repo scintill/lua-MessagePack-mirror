@@ -346,7 +346,7 @@ local function unpack_cursor (c)
         c:underflow(i)
         s, i, j = c.s, c.i, c.j
     end
-    local val = s:sub(i, i):byte()
+    local val = s:byte(i)
     c.i = i+1
     return unpackers[val](c, val)
 end
