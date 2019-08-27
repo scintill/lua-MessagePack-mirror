@@ -1,5 +1,8 @@
 Revision history for lua-MessagePack
 
+0.5.2  Tue Aug 27 19:30:00 2019
+	improve speed of unpack integers
+
 0.5.1  Sat Jan 20 19:30:00 2018
 	fix extra bytes detection (see PR #26)
 	allows ipairs(mp.packers) (see PR #27)

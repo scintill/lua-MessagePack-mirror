@@ -66,7 +66,7 @@ make test
 
 ## Copyright and License
 
-Copyright &copy; 2012-2018 Fran&ccedil;ois Perrad
+Copyright &copy; 2012-2019 Fran&ccedil;ois Perrad
 
 This library is licensed under the terms of the MIT/X11 license,
 like Lua itself.

@@ -21,7 +21,7 @@ and the sources are hosted at <https://framagit.org/fperrad/lua-MessagePack/>.
 Copyright and License
 ---------------------
 
-Copyright (c) 2012-2018 Francois Perrad
+Copyright (c) 2012-2019 Francois Perrad
 
 This library is licensed under the terms of the MIT/X11 license, like Lua itself.
 
