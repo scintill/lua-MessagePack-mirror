@@ -20,7 +20,7 @@ else
 SRC     := src
 endif
 
-BED_OPTS:= --lua latest
+BED_OPTS:= --luajit https://github.com/openresty/luajit2.git@v2.1-agentzh --compat all
 
 all:
 	@echo "Nothing to build here, you can just make install"
