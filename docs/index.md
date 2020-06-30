@@ -24,7 +24,7 @@ The MessagePack specification is available at
 
 lua-MessagePack is in production/stable stage.
 
-It's developed for Lua 5.1, 5.2 & 5.3. There are 2 variants:
+It's developed for Lua 5.1, 5.2, 5.3 & 5.4. There are 2 variants:
 
 - one compatible with all interpreters since Lua 5.1
 - another which uses the Lua 5.3 features
