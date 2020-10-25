@@ -16,6 +16,8 @@ INSTALL := install
 
 ifeq ($(LUAVER),5.3)
 SRC     := src5.3
+else ifeq ($(LUAVER),5.4)
+SRC     := src5.3
 else
 SRC     := src
 endif
