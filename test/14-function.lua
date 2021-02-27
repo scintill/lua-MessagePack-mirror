@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 plan(4)
 
@@ -19,9 +19,9 @@ mp.build_ext = function (tag, data)
 end
 
 local function square (n) return n * n end
-is( square(2), 4 )
+equals( square(2), 4 )
 local result = mp.unpack(mp.pack(square))
-type_ok( result, 'function' )
-nok( rawequal(square, result) )
-is( result(3), 9 )
+is_function( result )
+falsy( rawequal(square, result) )
+equals( result(3), 9 )
 

@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 plan(3)
 
@@ -28,14 +28,14 @@ end
 
 local mpac = mp.pack({1, 2, 3})
 local s = 'BAR' .. mpac .. 'BAZ'
-eq_array( my_unpack(s, 4, #s - 3), {1, 2, 3}, "my_unpack" )
+array_equals( my_unpack(s, 4, #s - 3), {1, 2, 3}, "my_unpack" )
 
-error_like( function ()
+error_matches( function ()
                 my_unpack(s, 4)
-            end,
-            "extra bytes" )
+        end,
+        "extra bytes" )
 
-error_like( function ()
+error_matches( function ()
                 my_unpack(s, 4, #s - 4)
-            end,
-            "missing bytes" )
+        end,
+        "missing bytes" )

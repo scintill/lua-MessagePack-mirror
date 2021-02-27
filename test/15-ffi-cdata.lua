@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 if not pcall(require, 'ffi') then
     skip_all 'no ffi'
@@ -53,38 +53,38 @@ end
 
 
 local a = ffi.new('uint8_t', 100)
-ok( ffi.istype(uint8_t, a) )
+truthy( ffi.istype(uint8_t, a) )
 -- diag(mp.hexadump(mp.pack(a)))
 local b = mp.unpack(mp.pack(a))
-type_ok( b, 'cdata' )
-is( tonumber(b), 100 )
-nok( rawequal(a, b) )
-ok( ffi.istype(uint8_t, b) )
+is_cdata( b )
+equals( tonumber(b), 100 )
+falsy( rawequal(a, b) )
+truthy( ffi.istype(uint8_t, b) )
 
 a = ffi.new('uint16_t', 10000)
-ok( ffi.istype(uint16_t, a) )
+truthy( ffi.istype(uint16_t, a) )
 -- diag(mp.hexadump(mp.pack(a)))
 b = mp.unpack(mp.pack(a))
-type_ok( b, 'cdata' )
-is( tonumber(b), 10000 )
-nok( rawequal(a, b) )
-ok( ffi.istype(uint16_t, b) )
+is_cdata( b )
+equals( tonumber(b), 10000 )
+falsy( rawequal(a, b) )
+truthy( ffi.istype(uint16_t, b) )
 
 a = ffi.new('uint32_t', 100000000)
-ok( ffi.istype(uint32_t, a) )
+truthy( ffi.istype(uint32_t, a) )
 -- diag(mp.hexadump(mp.pack(a)))
 b = mp.unpack(mp.pack(a))
-type_ok( b, 'cdata' )
-is( tonumber(b), 100000000 )
-nok( rawequal(a, b) )
-ok( ffi.istype(uint32_t, b) )
+is_cdata( b )
+equals( tonumber(b), 100000000 )
+falsy( rawequal(a, b) )
+truthy( ffi.istype(uint32_t, b) )
 
 a = ffi.new('uint64_t', 1000000000000)
-ok( ffi.istype(uint64_t, a) )
+truthy( ffi.istype(uint64_t, a) )
 -- diag(mp.hexadump(mp.pack(a)))
 b = mp.unpack(mp.pack(a))
-type_ok( b, 'cdata' )
-is( tonumber(b), 1000000000000 )
-nok( rawequal(a, b) )
-ok( ffi.istype(uint64_t, b) )
+is_cdata( b )
+equals( tonumber(b), 1000000000000 )
+falsy( rawequal(a, b) )
+truthy( ffi.istype(uint64_t, b) )
 

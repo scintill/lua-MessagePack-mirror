@@ -2,7 +2,7 @@
 
 local unpack = table.unpack or unpack
 
-require 'Test.More'
+require 'Test.Assertion'
 
 local mp = require 'MessagePack'
 
@@ -176,11 +176,11 @@ local mpac = string.char(unpack(t))
 local i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(val, data[i], "reference   " .. data[i+1])
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(val, data[i], "reference   " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(val, data[i], "reference   " .. data[i+1])
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(val, data[i], "reference   " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -213,9 +213,9 @@ f = io.open('cases.mpac', 'r')
 local s = ltn12.source.file(f)
 for _, val in mp.unpacker(s) do
     if type(val) == 'table' then
-        is_deeply(val, data[i], "reference   " .. data[i+1])
+        same(val, data[i], "reference   " .. data[i+1])
     else
-        is(val, data[i], "reference   " .. data[i+1])
+        equals(val, data[i], "reference   " .. data[i+1])
     end
     i = i + 2
 end
@@ -226,9 +226,9 @@ mp.set_string'string'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -238,9 +238,9 @@ mp.set_string'binary'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -251,9 +251,9 @@ mp.set_integer'signed'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -264,9 +264,9 @@ mp.set_array'with_hole'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -276,9 +276,9 @@ mp.set_array'always_as_map'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end
@@ -289,9 +289,9 @@ mp.set_number'float'
 i = 1
 for _, val in mp.unpacker(mpac) do
     if type(val) == 'table' then
-        is_deeply(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        same(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     else
-        is(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
+        equals(mp.unpack(mp.pack(data[i])), data[i], "unpack/pack " .. data[i+1])
     end
     i = i + 2
 end

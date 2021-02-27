@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 if not pcall(require, 'bc') then
     skip_all 'no bc'
@@ -30,11 +30,11 @@ end
 
 local orig = bc.sqrt(2)
 local dest = mp.unpack(mp.pack(orig))
-is( dest, orig, "bc" )
-nok( rawequal(orig, dest) )
+equals( dest, orig, "bc" )
+falsy( rawequal(orig, dest) )
 
-error_like( function ()
+error_matches( function ()
                 mp.pack( io.stdin )
-            end,
-            "pack 'userdata' is unimplemented" )
+        end,
+        "pack 'userdata' is unimplemented" )
 

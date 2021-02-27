@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 plan(6)
 
@@ -30,14 +30,14 @@ mp.build_ext = function (tag, data)
 end
 
 local t = setmetatable( { 'a', 'b', 'c' }, { __index = { [4] = 'd' } } )
-is( t[4], 'd' )
+equals( t[4], 'd' )
 t = mp.unpack(mp.pack(t))
-is( t[2], 'b' )
-is( t[4], 'd', "follow metatable"  )
+equals( t[2], 'b' )
+equals( t[4], 'd', "follow metatable"  )
 
 t = setmetatable( { a = 1, b = 2, c = 3 }, { __index = { d = 4 } } )
-is( t.d, 4 )
+equals( t.d, 4 )
 t = mp.unpack(mp.pack(t))
-is( t.b, 2 )
-is( t.d, 4, "follow metatable" )
+equals( t.b, 2 )
+equals( t.d, 4, "follow metatable" )
 

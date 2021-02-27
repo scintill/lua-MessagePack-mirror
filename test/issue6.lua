@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 local mp = require 'MessagePack'
 
@@ -53,7 +53,7 @@ f = io.open('data.mpac', 'r')
 local s = ltn12.source.file(f)
 local i = 1
 for _, val in mp.unpacker(s) do
-    is(val, data[i])
+    equals(val, data[i])
     i = i + 1
 end
 os.remove 'data.mpac'  -- clean up

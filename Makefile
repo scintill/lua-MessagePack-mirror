@@ -93,7 +93,7 @@ rock:
 
 bed:
 	hererocks bed $(BED_OPTS) --no-readline --luarocks latest --verbose
-	bed/bin/luarocks install lua-testmore
+	bed/bin/luarocks install lua-testassertion
 	bed/bin/luarocks install lua-coat
 	bed/bin/luarocks install lbc
 	bed/bin/luarocks install luacov

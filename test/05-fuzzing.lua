@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 if package.loaded['luacov'] then
     skip_all('coverage')
@@ -20,14 +20,14 @@ for _ = 1, 1000000 do
     local data = string.char(unpack(t))
     local r, msg = pcall(mp.unpack, data)
     if r == true then
-        pass()
+        passes()
     else
         if     not msg:match'extra bytes$'
            and not msg:match'missing bytes$'
            and not msg:match'is unimplemented$' then
             diag(table.concat(t, ' '))
             diag(msg)
-            fail()
+            fails()
         end
     end
 end

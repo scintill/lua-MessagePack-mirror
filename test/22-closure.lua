@@ -1,6 +1,6 @@
 #! /usr/bin/lua
 
-require 'Test.More'
+require 'Test.Assertion'
 
 plan(5)
 
@@ -21,12 +21,12 @@ local function FLOAT (n)
     end
 end
 
-is( mp.pack('STR'):byte(), 0xA0 + 3, "fixstr" )
-is( mp.pack(BINARY'STR'):byte(), 0xC4, "bin8" )
+equals( mp.pack('STR'):byte(), 0xA0 + 3, "fixstr" )
+equals( mp.pack(BINARY'STR'):byte(), 0xC4, "bin8" )
 
-is( mp.pack(42):byte(), 42, "fixnum" )
-is( mp.pack(FLOAT(42)):byte(), 0xCA, "float" )
+equals( mp.pack(42):byte(), 42, "fixnum" )
+equals( mp.pack(FLOAT(42)):byte(), 0xCA, "float" )
 
 local t = { 'encoded_with_global_settings', BINARY'encoded_as_binary', 42, FLOAT(42) }
 local mpac = mp.pack(t)
-eq_array( mp.unpack(mpac), { 'encoded_with_global_settings', 'encoded_as_binary', 42, 42 }, "in a table" )
+array_equals( mp.unpack(mpac), { 'encoded_with_global_settings', 'encoded_as_binary', 42, 42 }, "in a table" )
