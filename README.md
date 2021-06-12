@@ -4,13 +4,13 @@ lua-MessagePack : a pure Lua implementation (spec v5)
 Introduction
 ------------
 
-[MessagePack](http://msgpack.org/) is an efficient binary serialization format.
+[MessagePack](https://msgpack.org/) is an efficient binary serialization format.
 
 It lets you exchange data among multiple languages like JSON but it's faster and smaller.
 
 It's a pure Lua implementation, without dependency.
 
-And it's really fast with [LuaJIT](http://luajit.org).
+And it's really fast with [LuaJIT](https://luajit.org).
 
 Links
 -----

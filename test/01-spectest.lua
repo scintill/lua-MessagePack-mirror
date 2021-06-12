@@ -87,7 +87,7 @@ end
 
 plan(9 * (mp.small_lua and 60 or 69))
 
--- see http://github.com/msgpack/msgpack/blob/master/test/cases_gen.rb
+-- see https://github.com/msgpack/msgpack/blob/master/test/cases_gen.rb
 local source = [===[
 c2                              # false
 c3                              # true

@@ -5,7 +5,7 @@
 
 ## Overview
 
-[MessagePack](http://msgpack.org/)
+[MessagePack](https://msgpack.org/)
 is an efficient binary serialization format.
 
 It lets you exchange data among multiple languages
