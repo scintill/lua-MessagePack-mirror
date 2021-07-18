@@ -1,6 +1,7 @@
 site_name: lua-MessagePack
 site_description: a pure Lua implementation (spec v5)
 site_author: François Perrad
+site_url: https://fperrad.frama.io/lua-MessagePack
 repo_url: https://framagit.org/fperrad/lua-MessagePack
 nav:
 - Home: index.md
